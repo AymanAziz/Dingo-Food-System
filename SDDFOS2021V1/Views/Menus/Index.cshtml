@@ -1,0 +1,60 @@
+﻿@model IEnumerable<SDDFOS2021V1.Models.Menu>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-large" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                <b>Food Name</b>
+            </th>
+            <th>
+                <b>Food Price</b>
+            </th>
+            <th>
+                <b>Category</b>
+            </th>
+            <th>
+                <b>Admin Name</b>
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FoodName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FoodPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FoodCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Admin.AdminName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.MenuID }, new { @class = "btn btn-primary btn-large" }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.MenuID }, new { @class = "btn btn-info btn-large" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.MenuID }, new { @class = "btn btn-danger btn-large" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+</html>

@@ -1,0 +1,66 @@
+﻿@model SDDFOS2021V1.Models.OrderTracking
+
+@{
+    Layout = "~/Views/Shared/dashboard.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h2> Details</h2>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Order Location
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OrderLocation)
+            </dd>
+
+            <dt>
+                Order Delivery Time
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OrderDeliveryTime)
+            </dd>
+
+            <dt>
+                Status
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Status)
+            </dd>
+
+            <dt>
+                Customer Name
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Customer.CustomerName)
+            </dd>
+
+            <dt>
+                Order ID
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.OrderDetail.OrderID)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.OrderTrackingID }, new { @class = "btn btn-info btn-large" })
+        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-large" })
+    </p>
+</body>
+</html>

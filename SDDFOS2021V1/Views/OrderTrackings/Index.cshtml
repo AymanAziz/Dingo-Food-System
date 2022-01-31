@@ -1,0 +1,83 @@
+﻿@model IEnumerable<SDDFOS2021V1.Models.OrderTracking>
+
+@{
+    Layout = "~/Views/Shared/dashboard.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <h2>Manage Tracking</h2>
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-large" })
+    </p>
+
+    @using (Html.BeginForm("Index", "orderTrackings", FormMethod.Get))
+    {
+        <p>
+            Tracking ID: @Html.TextBox("id")
+            <input type="submit" value="Search" />
+        </p>
+    }
+
+    <table class="table">
+        <tr>
+            <th>
+                Tracking Order ID
+            </th>
+            <th>
+                Order Location
+            </th>
+            <th>
+                Order Delivery Time
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Customer ID
+            </th>
+            <th>
+                Order ID
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderTrackingID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDeliveryTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.CustomerID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDetail.OrderID)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.OrderTrackingID }, new { @class = "btn btn-primary btn-large" }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.OrderTrackingID }, new { @class = "btn btn-info btn-large" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.OrderTrackingID }, new { @class = "btn btn-danger btn-large" })
+                    @Html.ActionLink("Track", "Customer", new { id = item.CustomerID }, new { @class = "btn btn-primary btn-large" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+</html>

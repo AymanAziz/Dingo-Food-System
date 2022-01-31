@@ -1,0 +1,64 @@
+﻿@model IEnumerable<SDDFOS2021V1.Models.Refund>
+
+@{
+    Layout = "~/Views/Shared/dashboard.cshtml";
+    ViewBag.Title = "Refund Request List";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <h2> Refund Request List</h2>
+    <br />
+    <p> All the request from user are listed here.</p>
+    <p> If need to <strong>approve</strong> the request, <strong>leave</strong> it in the list.</p>
+    <p> If need to <strong>reject</strong> the request, <strong>delete</strong> it from the list.</p>
+    <br />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RefundAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RefundDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Admin.AdminName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Payment.PaymentType)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RefundAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RefundDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Admin.AdminName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Payment.PaymentType)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.RefundID },new { @class = "btn btn-primary btn-large" }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.RefundID },new { @class = "btn btn-info btn-large" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.RefundID }, new { @class = "btn btn-danger btn-large" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+</html>

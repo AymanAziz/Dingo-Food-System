@@ -1,0 +1,806 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="FOSV1dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdminName" Type="varchar" MaxLength="40" />
+          <Property Name="AdminContactNumber" Type="varchar" MaxLength="50" />
+          <Property Name="AdminEmail" Type="varchar" MaxLength="30" />
+          <Property Name="AdminUsername" Type="varchar" MaxLength="15" />
+          <Property Name="AdminPassword" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="varchar" MaxLength="40" />
+          <Property Name="CustomerContactNumber" Type="varchar" MaxLength="50" />
+          <Property Name="CustomerAddress" Type="varchar" MaxLength="80" />
+          <Property Name="CustomerUsername" Type="varchar" MaxLength="15" />
+          <Property Name="CustomerPassword" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="MenuID" />
+          </Key>
+          <Property Name="MenuID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdminID" Type="int" Nullable="false" />
+          <Property Name="FoodName" Type="varchar" MaxLength="20" />
+          <Property Name="FoodPrice" Type="float" />
+          <Property Name="FoodCategory" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="OrderDetails">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="OrderDate" Type="datetime" />
+          <Property Name="MenuID" Type="int" Nullable="false" />
+          <Property Name="OrderQuantity" Type="int" />
+          <Property Name="OrderAmount" Type="float" />
+        </EntityType>
+        <EntityType Name="OrderTracking">
+          <Key>
+            <PropertyRef Name="OrderTrackingID" />
+          </Key>
+          <Property Name="OrderTrackingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderID" Type="int" />
+          <Property Name="CustomerID" Type="int" />
+          <Property Name="OrderLocation" Type="varchar" MaxLength="80" />
+          <Property Name="OrderDeliveryTime" Type="time" Precision="0" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="OrderID" Type="int" Nullable="false" />
+          <Property Name="RefundID" Type="int" />
+          <Property Name="PaymentAmount" Type="float" />
+          <Property Name="PaymentType" Type="varchar" MaxLength="20" />
+          <Property Name="PaymentDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Refund">
+          <Key>
+            <PropertyRef Name="RefundID" />
+          </Key>
+          <Property Name="RefundID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentID" Type="int" Nullable="false" />
+          <Property Name="AdminID" Type="int" Nullable="false" />
+          <Property Name="RefundAmount" Type="float" />
+          <Property Name="RefundDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderID" Type="int" Nullable="false" />
+          <Property Name="CustomerID" Type="int" Nullable="false" />
+          <Property Name="AdminID" Type="int" Nullable="false" />
+          <Property Name="PaymentID" Type="int" Nullable="false" />
+          <Property Name="ReportDate" Type="date" />
+        </EntityType>
+        <Association Name="FK_Menu_Admin">
+          <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admin">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Menu">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="1" />
+          <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="MenuID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="MenuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderTracking_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="OrderTracking" Type="Self.OrderTracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="OrderTracking">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderTracking_OrderDetails">
+          <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="0..1" />
+          <End Role="OrderTracking" Type="Self.OrderTracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderDetails">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="OrderTracking">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_OrderDetails">
+          <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderDetails">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Refund">
+          <End Role="Refund" Type="Self.Refund" Multiplicity="0..1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Refund">
+              <PropertyRef Name="RefundID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="RefundID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Refund_Admin">
+          <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
+          <End Role="Refund" Type="Self.Refund" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admin">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="Refund">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Refund_Payment">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="Refund" Type="Self.Refund" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentID" />
+            </Principal>
+            <Dependent Role="Refund">
+              <PropertyRef Name="PaymentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Admin">
+          <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admin">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_OrderDetails">
+          <End Role="OrderDetails" Type="Self.OrderDetails" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderDetails">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Payment">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="PaymentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FOSV1dbModelStoreContainer">
+          <EntitySet Name="Admin" EntityType="Self.Admin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderTracking" EntityType="Self.OrderTracking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Payment" EntityType="Self.Payment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Refund" EntityType="Self.Refund" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Menu_Admin" Association="Self.FK_Menu_Admin">
+            <End Role="Admin" EntitySet="Admin" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Customer" Association="Self.FK_OrderDetails_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Menu" Association="Self.FK_OrderDetails_Menu">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderTracking_Customer" Association="Self.FK_OrderTracking_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="OrderTracking" EntitySet="OrderTracking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderTracking_OrderDetails" Association="Self.FK_OrderTracking_OrderDetails">
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+            <End Role="OrderTracking" EntitySet="OrderTracking" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Customer" Association="Self.FK_Payment_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_OrderDetails" Association="Self.FK_Payment_OrderDetails">
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Refund" Association="Self.FK_Payment_Refund">
+            <End Role="Refund" EntitySet="Refund" />
+            <End Role="Payment" EntitySet="Payment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Refund_Admin" Association="Self.FK_Refund_Admin">
+            <End Role="Admin" EntitySet="Admin" />
+            <End Role="Refund" EntitySet="Refund" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Refund_Payment" Association="Self.FK_Refund_Payment">
+            <End Role="Payment" EntitySet="Payment" />
+            <End Role="Refund" EntitySet="Refund" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Admin" Association="Self.FK_Report_Admin">
+            <End Role="Admin" EntitySet="Admin" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Customer" Association="Self.FK_Report_Customer">
+            <End Role="Customer" EntitySet="Customer" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_OrderDetails" Association="Self.FK_Report_OrderDetails">
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Payment" Association="Self.FK_Report_Payment">
+            <End Role="Payment" EntitySet="Payment" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="FOSV1dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Admin">
+          <Key>
+            <PropertyRef Name="AdminID" />
+          </Key>
+          <Property Name="AdminID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdminName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="AdminContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AdminEmail" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="AdminUsername" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="AdminPassword" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Menus" Relationship="Self.FK_Menu_Admin" FromRole="Admin" ToRole="Menu" />
+          <NavigationProperty Name="Refunds" Relationship="Self.FK_Refund_Admin" FromRole="Admin" ToRole="Refund" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_Report_Admin" FromRole="Admin" ToRole="Report" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerID" />
+          </Key>
+          <Property Name="CustomerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerContactNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerAddress" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerUsername" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerPassword" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Customer" FromRole="Customer" ToRole="OrderDetails" />
+          <NavigationProperty Name="OrderTrackings" Relationship="Self.FK_OrderTracking_Customer" FromRole="Customer" ToRole="OrderTracking" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_Payment_Customer" FromRole="Customer" ToRole="Payment" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_Report_Customer" FromRole="Customer" ToRole="Report" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="MenuID" />
+          </Key>
+          <Property Name="MenuID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdminID" Type="Int32" Nullable="false" />
+          <Property Name="FoodName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FoodPrice" Type="Double" />
+          <Property Name="FoodCategory" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Admin" Relationship="Self.FK_Menu_Admin" FromRole="Menu" ToRole="Admin" />
+          <NavigationProperty Name="OrderDetails" Relationship="Self.FK_OrderDetails_Menu" FromRole="Menu" ToRole="OrderDetails" />
+        </EntityType>
+        <EntityType Name="OrderDetail">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="OrderDate" Type="DateTime" Precision="3" />
+          <Property Name="MenuID" Type="Int32" Nullable="false" />
+          <Property Name="OrderQuantity" Type="Int32" />
+          <Property Name="OrderAmount" Type="Double" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_OrderDetails_Customer" FromRole="OrderDetails" ToRole="Customer" />
+          <NavigationProperty Name="Menu" Relationship="Self.FK_OrderDetails_Menu" FromRole="OrderDetails" ToRole="Menu" />
+          <NavigationProperty Name="OrderTrackings" Relationship="Self.FK_OrderTracking_OrderDetails" FromRole="OrderDetails" ToRole="OrderTracking" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_Payment_OrderDetails" FromRole="OrderDetails" ToRole="Payment" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_Report_OrderDetails" FromRole="OrderDetails" ToRole="Report" />
+        </EntityType>
+        <EntityType Name="OrderTracking">
+          <Key>
+            <PropertyRef Name="OrderTrackingID" />
+          </Key>
+          <Property Name="OrderTrackingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" />
+          <Property Name="CustomerID" Type="Int32" />
+          <Property Name="OrderLocation" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="OrderDeliveryTime" Type="Time" Precision="0" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_OrderTracking_Customer" FromRole="OrderTracking" ToRole="Customer" />
+          <NavigationProperty Name="OrderDetail" Relationship="Self.FK_OrderTracking_OrderDetails" FromRole="OrderTracking" ToRole="OrderDetails" />
+        </EntityType>
+        <EntityType Name="Payment">
+          <Key>
+            <PropertyRef Name="PaymentID" />
+          </Key>
+          <Property Name="PaymentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="RefundID" Type="Int32" />
+          <Property Name="PaymentAmount" Type="Double" />
+          <Property Name="PaymentType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Payment_Customer" FromRole="Payment" ToRole="Customer" />
+          <NavigationProperty Name="OrderDetail" Relationship="Self.FK_Payment_OrderDetails" FromRole="Payment" ToRole="OrderDetails" />
+          <NavigationProperty Name="Refund" Relationship="Self.FK_Payment_Refund" FromRole="Payment" ToRole="Refund" />
+          <NavigationProperty Name="Refunds" Relationship="Self.FK_Refund_Payment" FromRole="Payment" ToRole="Refund" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_Report_Payment" FromRole="Payment" ToRole="Report" />
+        </EntityType>
+        <EntityType Name="Refund">
+          <Key>
+            <PropertyRef Name="RefundID" />
+          </Key>
+          <Property Name="RefundID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentID" Type="Int32" Nullable="false" />
+          <Property Name="AdminID" Type="Int32" Nullable="false" />
+          <Property Name="RefundAmount" Type="Double" />
+          <Property Name="RefundDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Admin" Relationship="Self.FK_Refund_Admin" FromRole="Refund" ToRole="Admin" />
+          <NavigationProperty Name="Payments" Relationship="Self.FK_Payment_Refund" FromRole="Refund" ToRole="Payment" />
+          <NavigationProperty Name="Payment" Relationship="Self.FK_Refund_Payment" FromRole="Refund" ToRole="Payment" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="CustomerID" Type="Int32" Nullable="false" />
+          <Property Name="AdminID" Type="Int32" Nullable="false" />
+          <Property Name="PaymentID" Type="Int32" Nullable="false" />
+          <Property Name="ReportDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Admin" Relationship="Self.FK_Report_Admin" FromRole="Report" ToRole="Admin" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Report_Customer" FromRole="Report" ToRole="Customer" />
+          <NavigationProperty Name="OrderDetail" Relationship="Self.FK_Report_OrderDetails" FromRole="Report" ToRole="OrderDetails" />
+          <NavigationProperty Name="Payment" Relationship="Self.FK_Report_Payment" FromRole="Report" ToRole="Payment" />
+        </EntityType>
+        <Association Name="FK_Menu_Admin">
+          <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admin">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Refund_Admin">
+          <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
+          <End Role="Refund" Type="Self.Refund" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admin">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="Refund">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Admin">
+          <End Role="Admin" Type="Self.Admin" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Admin">
+              <PropertyRef Name="AdminID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderTracking_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="0..1" />
+          <End Role="OrderTracking" Type="Self.OrderTracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="OrderTracking">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Customer">
+          <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customer">
+              <PropertyRef Name="CustomerID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="CustomerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderDetails_Menu">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="1" />
+          <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="MenuID" />
+            </Principal>
+            <Dependent Role="OrderDetails">
+              <PropertyRef Name="MenuID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderTracking_OrderDetails">
+          <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="0..1" />
+          <End Role="OrderTracking" Type="Self.OrderTracking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderDetails">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="OrderTracking">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_OrderDetails">
+          <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderDetails">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_OrderDetails">
+          <End Role="OrderDetails" Type="Self.OrderDetail" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderDetails">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Payment_Refund">
+          <End Role="Refund" Type="Self.Refund" Multiplicity="0..1" />
+          <End Role="Payment" Type="Self.Payment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Refund">
+              <PropertyRef Name="RefundID" />
+            </Principal>
+            <Dependent Role="Payment">
+              <PropertyRef Name="RefundID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Refund_Payment">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="Refund" Type="Self.Refund" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentID" />
+            </Principal>
+            <Dependent Role="Refund">
+              <PropertyRef Name="PaymentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_Payment">
+          <End Role="Payment" Type="Self.Payment" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payment">
+              <PropertyRef Name="PaymentID" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="PaymentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="FOSV1dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Admins" EntityType="Self.Admin" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Menus" EntityType="Self.Menu" />
+          <EntitySet Name="OrderDetails" EntityType="Self.OrderDetail" />
+          <EntitySet Name="OrderTrackings" EntityType="Self.OrderTracking" />
+          <EntitySet Name="Payments" EntityType="Self.Payment" />
+          <EntitySet Name="Refunds" EntityType="Self.Refund" />
+          <EntitySet Name="Reports" EntityType="Self.Report" />
+          <AssociationSet Name="FK_Menu_Admin" Association="Self.FK_Menu_Admin">
+            <End Role="Admin" EntitySet="Admins" />
+            <End Role="Menu" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Refund_Admin" Association="Self.FK_Refund_Admin">
+            <End Role="Admin" EntitySet="Admins" />
+            <End Role="Refund" EntitySet="Refunds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Admin" Association="Self.FK_Report_Admin">
+            <End Role="Admin" EntitySet="Admins" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Customer" Association="Self.FK_OrderDetails_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderTracking_Customer" Association="Self.FK_OrderTracking_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="OrderTracking" EntitySet="OrderTrackings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Customer" Association="Self.FK_Payment_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Customer" Association="Self.FK_Report_Customer">
+            <End Role="Customer" EntitySet="Customers" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderDetails_Menu" Association="Self.FK_OrderDetails_Menu">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderTracking_OrderDetails" Association="Self.FK_OrderTracking_OrderDetails">
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+            <End Role="OrderTracking" EntitySet="OrderTrackings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_OrderDetails" Association="Self.FK_Payment_OrderDetails">
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_OrderDetails" Association="Self.FK_Report_OrderDetails">
+            <End Role="OrderDetails" EntitySet="OrderDetails" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Payment_Refund" Association="Self.FK_Payment_Refund">
+            <End Role="Refund" EntitySet="Refunds" />
+            <End Role="Payment" EntitySet="Payments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Refund_Payment" Association="Self.FK_Refund_Payment">
+            <End Role="Payment" EntitySet="Payments" />
+            <End Role="Refund" EntitySet="Refunds" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_Payment" Association="Self.FK_Report_Payment">
+            <End Role="Payment" EntitySet="Payments" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="FOSV1dbModelStoreContainer" CdmEntityContainer="FOSV1dbEntities">
+          <EntitySetMapping Name="Admins">
+            <EntityTypeMapping TypeName="FOSV1dbModel.Admin">
+              <MappingFragment StoreEntitySet="Admin">
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="AdminName" ColumnName="AdminName" />
+                <ScalarProperty Name="AdminContactNumber" ColumnName="AdminContactNumber" />
+                <ScalarProperty Name="AdminEmail" ColumnName="AdminEmail" />
+                <ScalarProperty Name="AdminUsername" ColumnName="AdminUsername" />
+                <ScalarProperty Name="AdminPassword" ColumnName="AdminPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="FOSV1dbModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerContactNumber" ColumnName="CustomerContactNumber" />
+                <ScalarProperty Name="CustomerAddress" ColumnName="CustomerAddress" />
+                <ScalarProperty Name="CustomerUsername" ColumnName="CustomerUsername" />
+                <ScalarProperty Name="CustomerPassword" ColumnName="CustomerPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="FOSV1dbModel.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+                <ScalarProperty Name="FoodPrice" ColumnName="FoodPrice" />
+                <ScalarProperty Name="FoodCategory" ColumnName="FoodCategory" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderDetails">
+            <EntityTypeMapping TypeName="FOSV1dbModel.OrderDetail">
+              <MappingFragment StoreEntitySet="OrderDetails">
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="MenuID" ColumnName="MenuID" />
+                <ScalarProperty Name="OrderQuantity" ColumnName="OrderQuantity" />
+                <ScalarProperty Name="OrderAmount" ColumnName="OrderAmount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderTrackings">
+            <EntityTypeMapping TypeName="FOSV1dbModel.OrderTracking">
+              <MappingFragment StoreEntitySet="OrderTracking">
+                <ScalarProperty Name="OrderTrackingID" ColumnName="OrderTrackingID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="OrderLocation" ColumnName="OrderLocation" />
+                <ScalarProperty Name="OrderDeliveryTime" ColumnName="OrderDeliveryTime" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Payments">
+            <EntityTypeMapping TypeName="FOSV1dbModel.Payment">
+              <MappingFragment StoreEntitySet="Payment">
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="RefundID" ColumnName="RefundID" />
+                <ScalarProperty Name="PaymentAmount" ColumnName="PaymentAmount" />
+                <ScalarProperty Name="PaymentType" ColumnName="PaymentType" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Refunds">
+            <EntityTypeMapping TypeName="FOSV1dbModel.Refund">
+              <MappingFragment StoreEntitySet="Refund">
+                <ScalarProperty Name="RefundID" ColumnName="RefundID" />
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="RefundAmount" ColumnName="RefundAmount" />
+                <ScalarProperty Name="RefundDate" ColumnName="RefundDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="FOSV1dbModel.Report">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+                <ScalarProperty Name="CustomerID" ColumnName="CustomerID" />
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="PaymentID" ColumnName="PaymentID" />
+                <ScalarProperty Name="ReportDate" ColumnName="ReportDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

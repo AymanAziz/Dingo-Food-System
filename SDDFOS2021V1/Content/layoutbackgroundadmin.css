@@ -1,0 +1,42 @@
+﻿html {
+    height: 100%;
+}
+
+body {
+    background-image: url('../img/1.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    font-family: 'Work Sans', sans-serif;
+}
+
+.form-rounded {
+    border-radius: 1rem;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Crimson Text', serif;
+}
+
+/*ini utk div kt login 'Admin'*/
+.totalemployee {
+    background-color: rgb(255, 255, 255);
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    color: #171414;
+    width: 35%;
+    padding: 20px;
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 6px;
+}
+/**/
+.group {
+    position: relative;
+    margin-bottom: 45px;
+}
+
+/** submit button utk login same size*/
+#search {
+    width: 20em;
+    height: 2.3em;
+}

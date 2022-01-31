@@ -1,0 +1,62 @@
+﻿@model IEnumerable<SDDFOS2021V1.Models.Admin>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary btn-large" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Contact Number
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Username
+            </th>
+
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdminName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdminContactNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdminEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AdminUsername)
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.AdminID }, new { @class = "btn btn-primary btn-large" }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.AdminID }, new { @class = "btn btn-info btn-large" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.AdminID }, new { @class = "btn btn-danger btn-large" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+</html>

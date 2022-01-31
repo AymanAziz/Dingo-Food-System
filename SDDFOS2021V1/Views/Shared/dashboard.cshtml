@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "dashboard";
+}
+
+
+<html>
+<head>
+
+    <link href="~/Content/adminlayout.css" rel="stylesheet" /><!-- ni tempat aq edit utk css-->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" /> <!-- yang ni template drpd vs basic 2019-->
+</head>
+<body>
+    <!-- top navigation-->
+    <div class="topnav">
+        <div class="topnav-right">
+            <a>@Html.ActionLink("Log out", "login", "Admins")</a><!--first nama, second : nama view file, third: part location view file-->
+        </div>
+    </div>
+
+    <!--side navigation-->
+    <div class="sidenav">
+        <br /><br /><!--next line 2 kali-->
+        <a>@Html.ActionLink("Admin", "Index", "Admins")</a> <!-- 1. nama link, 2.specific file,3.location file -->
+        <a>@Html.ActionLink("Menu", "Index", "Menus")</a>
+        <a>@Html.ActionLink("Customer", "Index", "Customers")</a>
+        <a>@Html.ActionLink("Payment", "Index", "Payments")</a>
+        <a>@Html.ActionLink("Refund", "Index", "Refunds")</a>
+        <a>@Html.ActionLink("Order Tracking", "Index", "OrderTrackings")</a>
+        <a>@Html.ActionLink("Report", "Index", "Reports")</a>
+
+    </div>
+
+    <div class="mainadmin">
+
+        @RenderBody()
+        @RenderSection("scripts", required: false)<!--sangat penting klau masalah render layout-->
+        <!--fungsi dia aq x tau ... entahlah, HAHAHAHAHA-->
+    </div>
+
+</body>
+</html>
+
+

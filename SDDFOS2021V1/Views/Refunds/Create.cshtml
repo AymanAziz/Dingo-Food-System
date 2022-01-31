@@ -1,0 +1,69 @@
+﻿@model SDDFOS2021V1.Models.Refund
+
+@{
+    Layout = "~/Views/Shared/User.cshtml";
+    ViewBag.Title = "Create Refund Request";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create Refund</title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <h2>User Request Refund</h2>
+            <h4>Please enter the necessary information to request for refund. Thank you.</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.PaymentID, "PaymentID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.DropDownList("PaymentID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PaymentID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.AdminID, "AdminID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.DropDownList("AdminID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AdminID, "", new { @class = "text-danger" })
+                    <h5>Please select the Admin ID to follow up your refund request.</h5>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RefundAmount, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.RefundAmount, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RefundAmount, "", new { @class = "text-danger" })
+                    <h5>Please enter the amount (MYR) that you request for refund.</h5>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.RefundDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-6">
+                    @Html.EditorFor(model => model.RefundDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RefundDate, "", new { @class = "text-danger" })
+                    <h5> Date in format MM/DD/YYYY.</h5>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                </div>
+            </div>
+        </div>
+    }
+
+</body>
+</html>

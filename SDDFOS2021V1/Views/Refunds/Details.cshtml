@@ -1,0 +1,60 @@
+﻿@model SDDFOS2021V1.Models.Refund
+
+@{
+    Layout = "~/Views/Shared/dashboard.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Details</title>
+</head>
+<body>
+    <div>
+        <h4>Refund Detail</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.RefundAmount)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RefundAmount)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.RefundDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.RefundDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Admin.AdminName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Admin.AdminName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Payment.PaymentType)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Payment.PaymentType)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.RefundID }, new { @class = "btn btn-info btn-large" }) |
+       
+            @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary btn-large" })
+       
+    </p>
+</body>
+</html>

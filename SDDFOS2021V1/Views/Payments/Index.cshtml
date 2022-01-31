@@ -1,0 +1,76 @@
+﻿@model IEnumerable<SDDFOS2021V1.Models.Payment>
+
+@{
+    Layout = "~/Views/Shared/dashboard.cshtml";
+    ViewBag.Title = "Payment List";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create",null, new { @class = "btn btn-primary btn-large" })
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PaymentDate)
+            </th>
+         
+            <th>
+                @Html.DisplayNameFor(model => model.Customer.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDetail.OrderID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Refund.RefundID)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentDate)
+                </td>
+              
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDetail.OrderID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Refund.RefundID)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.PaymentID }, new { @class = "btn btn-primary btn-large" }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.PaymentID }, new { @class = "btn btn-info btn-large" }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.PaymentID }, new { @class = "btn btn-danger btn-large" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</body>
+</html>

@@ -1,0 +1,57 @@
+﻿
+@model IEnumerable<SDDFOS2021V1.Models.OrderTracking>
+
+
+@{
+
+    ViewBag.Title = "Customer Tracking";
+}
+
+<h2> Track Order </h2>
+
+<br />
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Track ID
+            </th>
+            <th>
+                Order Location
+            </th>
+            <th>
+                Order Delivery Time
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                OrderID
+            </th>
+        </tr>
+    </thead>
+    <tbody id="DataSearching">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderTrackingID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderLocation)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDeliveryTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDetail.OrderID)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

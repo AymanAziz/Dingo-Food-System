@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "loginuser";
+}
+
+
+<html>
+<head>
+    <link href="~/Content/userloginonly.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" /> <!-- yang ni template drpd vs basic 2019-->
+</head>
+<body>
+    <!-- top navigation-->
+    <div class="topnav">
+        <a>@Html.ActionLink("Food ordering System", "login", "Customers")</a>
+        <div class="topnav-right">
+            <a>@Html.ActionLink("Register", "Create", "Customers")</a><!--first nama, second : nama view file, third: part location view file-->
+        </div>
+
+    </div>
+
+
+    <div class="totaluser">
+
+        @RenderBody()
+        @RenderSection("scripts", required: false)<!--sangat penting klau masalah render layout-->
+        <!--fungsi dia aq x tau ... entahlah, HAHAHAHAHA-->
+    </div>
+
+</body>
+</html>
